@@ -8,6 +8,11 @@ https://bitbucket.org/whitewand/2su_2020/src
 ### TD1
 
 #### Crack emily
+
+`file Td1.original 
+Td1.original: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=0456a9207dea8aeec6c747f074818b7b8b231b1d, not stripped`
+
+
 #### Patch binaire
 
 ### TD2
