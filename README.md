@@ -20,11 +20,11 @@ On peut voir que la fonction main vérifie l'input avec la fonction is_valid:
 
 ![is_valid](./src/img/is_valid.png)
 
-On peut extraire le mot de passe: **poop**. On peut voir différentes façons de patcher le binaire, en modifiant le mot de passe dans la section .data (offset: 0x984) ou en patchant le .text du programme. On peut Noped (0x90 opcode = no operation) le *je* (offset: 0x8c6) de main, le *jne* (offset: 0x861) de is valid ou le (offset: 0x86d) mov 0 de is_valid.
+On peut extraire le mot de passe: **poop**. On peut voir différentes façons de patcher le binaire, en modifiant le mot de passe dans la section .data (offset: 0x984) ou en patchant le .text du programme. On peut Noped (0x90 opcode = no operation) le *je* (offset: 0x8c6) de main, le *jne* (offset: 0x861) de is valid, et change le mov 0 (offset: 0x86d) de is_valid en mov 1.
 
 Petit script qui fait ca avec dd:
 
-`#!/bin/bash
+```#!/bin/bash
 
 echo "#Patching files";echo
 cp Td1.original Td1_change_password
@@ -45,7 +45,7 @@ echo 'random' | ./Td1_main_nop_je;echo
 echo "echo 'random' | ./Td1_is_valid_no_jne"
 echo 'random' | ./Td1_is_valid_no_jne;echo
 echo "echo 'random' | ./Td1_is_valid_change_mov"
-echo 'random' | ./Td1_is_valid_change_mov;echo`
+echo 'random' | ./Td1_is_valid_change_mov;echo```
 
 résultat:
 
