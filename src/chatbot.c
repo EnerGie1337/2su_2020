@@ -18,32 +18,24 @@ int main(int argc, char **argv){
   strcpy(nick->name, "nickname\0");
   char buf[256];
   int size;
-  while(run){
-    printf("\n<%s> ask me anything (? for help)\n<%s> ",bot->name, nick->name);
-    memset(buf,0,256); 
-    gets(buf);
-    size = strlen(buf);
-    if(!strcmp("?", buf)){
-        printf("\nbot change botname\nnick change nickname\nquit for quitting");
-    }else if(!strcmp("nick", buf)){
-	printf("\nNew nickname?");
-	memset(buf,0,256);
-        gets(buf);
-        strcpy(nick->name, buf);
-    }else if(!strcmp("bot", buf)){
-        printf("\nNew botname?");
-	memset(buf,0,256);
-        gets(buf);
-        strcpy(bot->name, buf);
-    }else if(!strcmp("quit", buf)){
-        run = 0;
-    }else{
-      printf("Application in building");
-    }
-  }
-  free(bot->name);
+
+  printf("\n<%s> give me a new name?",bot->name);
+  memset(buf,0,256); 
+  scanf("%s",buf);
+  size = strlen(buf);
+  strcpy(bot->name, buf);
+
+  printf("\n<%s> change your name?", nick->name);
+  memset(buf,0,256); 
+  scanf("%s",buf);
+  strcpy(nick->name, buf);
+
+  printf("\nSend a message?");
+  memset(buf,0,256); 
+  scanf("%s",buf);
+  size = strlen(buf);
+  printf("\nyour message is %s", buf);
   free(bot);
-  free(nick->name);
   free(nick);
   return 0;
 }
