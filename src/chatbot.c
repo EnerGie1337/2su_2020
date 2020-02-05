@@ -18,23 +18,26 @@ int main(int argc, char **argv){
   strcpy(nick->name, "nickname\0");
   char buf[256];
   int size;
-
-  printf("\n<%s> give me a new name?",bot->name);
+  printf("<");
+  write(1, bot->name, 8);
+  printf("> give me a new name?\n");
   memset(buf,0,256); 
   scanf("%s",buf);
   size = strlen(buf);
   strcpy(bot->name, buf);
 
-  printf("\n<%s> change your name?", nick->name);
+  printf("<");
+  write(1, nick->name, 256);
+  printf("> change your name?\n");
   memset(buf,0,256); 
   scanf("%s",buf);
   strcpy(nick->name, buf);
 
-  printf("\nSend a message?");
+  printf("Send a message?\n");
   memset(buf,0,256); 
   scanf("%s",buf);
   size = strlen(buf);
-  printf("\nyour message is %s", buf);
+  printf("your message is %s\n", buf);
   free(bot);
   free(nick);
   return 0;
