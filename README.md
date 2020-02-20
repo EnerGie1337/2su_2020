@@ -85,6 +85,32 @@ Please input a word: That's correct!
 
 ### TD2
 #### Binwalk
+
+Grâce à Binwalk nous allons pouvoir analyser les ressources et fichiers contenu dans un fichier.
+
+La commande qui permet d'extraire:
+
+`binwalk -e <Fichier>`
+
+![first_bin](./src/img/binwalk1.PNG)
+
+on peut extraire au fur et à mesure les archives contenu comme des poupées russes.
+Ce qui est interessant c'est le certificat qui peut être utilisé pour vérifier une signature et le CRC32 afin de verifier l'integrit" du fichier.
+
+finalement on arrive à une archive cpio qui contient une structure de fichier:
+
+![second_bin](./src/img/binwalk2.PNG)
+
+![tux](./src/img/tux.PNG)
+
+On peut ainsi retrouver le fichier tux.png de la démo. En analysant le script de lancement on peut voir que c'est le binaire df_andi qui charge l'image:
+
+![run tux](./src/img/runtux.PNG)
+
+On peut ensuite proceder à son analyse avec Ghidra:
+
+![decom](./src/img/decompiple.PNG)
+
 ### TD3
 #### Heap overflow
 
