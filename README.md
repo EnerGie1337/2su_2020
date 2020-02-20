@@ -146,7 +146,7 @@ Grâce à un heap overflow de la structure 'bot' nous allons pouvoir modifier l'
 
 On peut calculer l'offset des fonctions
 
-![func](./src/img/offset\ func.PNG)
+![func](./src/img/offset_func.PNG)
 
 On peut voir l'adresse de strlen dans la GOT
 
@@ -202,8 +202,8 @@ avant la copy le heap overflow on voit l'adresse de bot et de nick qui pointe ve
 
 ensuite après le heap overflow, on voit que l'adresse de nick pointe vers strlen@got:
 
-![got](./src/img/heap2.png)
+![got](./src/img/heap2.PNG)
 
 Si on regarde dans strlen@plt, on voit que ca pointe désormais vers system
 
-![got](./src/img/strlengot3.png)
+![got](./src/img/strlengot3.PNG)
