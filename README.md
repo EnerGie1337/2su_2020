@@ -24,7 +24,8 @@ On peut extraire le mot de passe: **poop**. On peut voir différentes façons de
 
 Petit script qui fait ca avec dd:
 
-```#!/bin/bash
+```
+#!/bin/bash
 
 echo "#Patching files";echo
 cp Td1.original Td1_change_password
@@ -75,7 +76,8 @@ echo 'random' | ./Td1_is_valid_no_jne
 Please input a word: That's correct!
 
 echo 'random' | ./Td1_is_valid_change_mov
-Please input a word: That's correct!```
+Please input a word: That's correct!
+```
 
 #### Patch binaire
 
