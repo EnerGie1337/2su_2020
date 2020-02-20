@@ -140,23 +140,23 @@ int main(int argc, char **argv){
 
 On peut voir que le programme run normalement
 
-![basic](./src/img/firsrun.png)
+![basic](./src/img/firsrun.PNG)
 
 Grâce à un heap overflow de la structure 'bot' nous allons pouvoir modifier l'adresse de la structure 'nick'. Ceci va nous donner une écriture arbitraire. Où pourrions nous écrire quelque chose d'interéssant? La Global offset table qui redirige vers les fonctions de la Glibc me parait une bonne cible. On pourrais par exemple remplacer l'adresse de 'strlen' par 'system' et executer '/bin/sh' à la place du message.
 
 On peut calculer l'offset des fonctions
 
-![func](./src/img/offset func.png)
+![func](./src/img/offset\ func.PNG)
 
 On peut voir l'adresse de strlen dans la GOT
 
 Au premier appel on résoud l'adresse de strlen
 
-![got](./src/img/strlengot1.png)
+![got](./src/img/strlengot1.PNG)
 
 après la résolution on voit que ca pointe bien vers strlen
 
-![got](./src/img/strlengot2.png)
+![got](./src/img/strlengot2.PNG)
 
 exploit:
 
@@ -182,7 +182,7 @@ sys.stdout.write(s1 + s2)
 
 On peut compiler le programme simplement 
 
-`gcc -o Chatbot charbot.c`
+`gcc -o Chatbot chatbot.c`
 
 Pour que cet exploit marche il faut désactiver l'ASLR qui va changer l'adresse de base de la Glibc à chaque execution.
 
@@ -192,13 +192,13 @@ Si on avait une lecture arbitraire, on pourrait leaker une adresse de la Glibc e
 
 on obtient bien un shell:
 
-![exploit](./src/img/exploit.png)
+![exploit](./src/img/exploit.PNG)
 
 On peut voir ce qui se passe dans la heap:
 
 avant la copy le heap overflow on voit l'adresse de bot et de nick qui pointe vers leurs chaine de caractère respectivement.
 
-![got](./src/img/heap1.png)
+![got](./src/img/heap1.PNG)
 
 ensuite après le heap overflow, on voit que l'adresse de nick pointe vers strlen@got:
 
