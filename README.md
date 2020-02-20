@@ -46,11 +46,13 @@ echo 'random' | ./Td1_main_nop_je;echo
 echo "echo 'random' | ./Td1_is_valid_no_jne"
 echo 'random' | ./Td1_is_valid_no_jne;echo
 echo "echo 'random' | ./Td1_is_valid_change_mov"
-echo 'random' | ./Td1_is_valid_change_mov;echo```
+echo 'random' | ./Td1_is_valid_change_mov;echo
+```
 
 résultat:
 
-```#Patching files
+```
+#Patching files
 
 4+0 enregistrements lus
 4+0 enregistrements écrits
