@@ -14,6 +14,9 @@ La chaine de confiance permet de verifier chaques composants (Hardware et Softwa
 
 - Décrire la méthode pour aborder la sécurité sur un produit embarqué. Pourquoi établir un modèle d'attaquant est-il important?
 
+On doit définir la surface d'attaque du produit et ensuite définir les attaquants probables ainsi que leur motivations, ceci nous permet de définir les risques potentiels, on doit ensuite tester les produits de toutes les facons possible RE, exploit, etc...
+Le modele le l'attaquant va permettre de definir les moyens à mettre en oeuvre pour se défendre (pas les mêmes entre un script kiddy et un agent de la NSA) 
+
 - Trouver un moyen rapide de faire du debug embarqué (par exemple sur cible ARM)? Expliquer les avantages
 
 On peut utiliser Unicorn engine (https://github.com/unicorn-engine/unicorn). Un framework qui permet d'emuler différentes architectures (ARM, AArch64, M68K, Mips, Sparc, X86), l'avantages c'est que l'on peut debuger facilement en C ou python sur sa machine sans avoir besoin d'une vrai machine qui présentes l'architecture désiré.
@@ -27,11 +30,22 @@ Heap overflow: pour exploiter on peut controller un pointeur par exemple suite �
 
 Format String: On va pouvoir leaké la mémoire %x ou %s, et écrire dedans %n, contre mesure FullReloc
 
+Use After free: On peut utiliser des structures qui ont était free (exemple vidéo de liveoverflow)
+
+signedness error/integer overflow: on peut modifier la stack frame et la controller grace à cela, par exemple le integer overflow peut overlow partiellement la save du SP et ainsi remonter le stack frame que l'attaquant controle et ainsi avoir le controle de l'adresse de retour.
+
+
 Clear Password/Credential/private keys: grâce à de la RE on peut retrouver des strings confidentiels qu'un attaquant pourrais utiliser (IDA, ghidra, etc...), contre mesure anti extraction de firmware (carte à puce ou autre), anti disassembly, anti debug, ofuscation
 
-MITM: on peut utiliser l'ARP spoofing ou l'Evil Twin afin d'espionner le traffic d'un IoT, contre mesure SSL, on peut faire une downgrade attack dessus (sslstrip), contre mesure HSTD 
+MITM: on peut utiliser l'ARP spoofing ou l'Evil Twin afin d'espionner le traffic d'un IoT, contre mesure SSL, on peut faire une downgrade attack dessus (sslstrip), contre mesure HSTS,on peut dans ce cas utiliser sslstrip2.
+
+Attack wifi: get WPA2 handshake+ crack, ou attaque Krack qui permet la reinstallation de clé de force et nounce re-use, permettant de dechiffrer à la volée.
+
+On peut modifier les circuits directement de l'IOT.
 
 - Quelles idées pour améliorer la sécurité en embarqué? (IA, Anti-debug, Obfuscation, Crypto ...) Choisissez une idée, chercher si elle existe et développer en quelques phrases quel avantage elle apporte et ses limites
+
+
 
 ## TD
 ### TD1
