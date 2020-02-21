@@ -45,7 +45,7 @@ On peut modifier les circuits directement de l'IOT.
 
 - Quelles idées pour améliorer la sécurité en embarqué? (IA, Anti-debug, Obfuscation, Crypto ...) Choisissez une idée, chercher si elle existe et développer en quelques phrases quel avantage elle apporte et ses limites
 
-
+L'IA permet de réduire les fausses alertes, optimiser la faculté à identifier et répondre aux cyberattaques et accroître l’efficacité des équipes. Sa limite est complexité de sa mise en place.
 
 ## TD
 ### TD1
