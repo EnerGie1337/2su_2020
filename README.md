@@ -6,13 +6,30 @@ https://bitbucket.org/whitewand/2su_2020/src
 
 - Quels sont les chemins d'attaque possibles sur la signature d'un système embarqué?
 
+Les attaquants vont pouvoir essayer de compromettre les clés de signatures (ex: Sony), ils peuvent pour cela s'attaquer au serveur de signature et au HSM (Hardware Security Module). Ils peuvent essayer d'installer un firmware non autorisé en compromettant le système de mise à jour, par exemple via la compromission de l'Open Platform qui peut permettre de changer l'autorité pour ODM (Original Designer Manufacturer) ou pour le end-user. 
+
 - A quoi sert la chaine de confiance? Pourquoi est-elle nécessaire?
+
+La chaine de confiance permet de verifier chaques composants (Hardware et Software) afin que seul des composants de confiance peuvent être installés. Cela est nécessaire pour garantir la légitimité et l'intégrité des composants qui dans le cas contraires pourrais être utilisé de manière malveillante.
 
 - Décrire la méthode pour aborder la sécurité sur un produit embarqué. Pourquoi établir un modèle d'attaquant est-il important?
 
 - Trouver un moyen rapide de faire du debug embarqué (par exemple sur cible ARM)? Expliquer les avantages
 
+On peut utiliser Unicorn engine (https://github.com/unicorn-engine/unicorn). Un framework qui permet d'emuler différentes architectures (ARM, AArch64, M68K, Mips, Sparc, X86), l'avantages c'est que l'on peut debuger facilement en C ou python sur sa machine sans avoir besoin d'une vrai machine qui présentes l'architecture désiré.
+
 - Lister les catégories de bug possibles et comment les exploiter et les défendre
+
+Binaire:
+stack overflow: pour exploiter après un fuzzing on voit que l'on peut controller l'adresse de retour, on peut utiliser un shellcode (contre mesure stack no exec), on peut ensuite chainer des ROP gagdet ou faire un ret2libc basic (Contre mesure canary, DEP, ASLR), mais on peut quand même essayer de bruteforce ou de stack/heap spray. 
+
+Heap overflow: pour exploiter on peut controller un pointeur par exemple suite à un fuzzing, et avoir une ecriture arbitraire (on peut remplacer une adresse dans la GOT par une autre par exemple strlen par system voir TD ci-dessous), comme contre mesure on pourrait activer l'ASLR, mais si on a une lecture arbitraire on pourra calculer l'offset correspondant. On peut activer la fullReloc.
+
+Format String: On va pouvoir leaké la mémoire %x ou %s, et écrire dedans %n, contre mesure FullReloc
+
+Clear Password/Credential/private keys: grâce à de la RE on peut retrouver des strings confidentiels qu'un attaquant pourrais utiliser (IDA, ghidra, etc...), contre mesure anti extraction de firmware (carte à puce ou autre), anti disassembly, anti debug, ofuscation
+
+MITM: on peut utiliser l'ARP spoofing ou l'Evil Twin afin d'espionner le traffic d'un IoT, contre mesure SSL, on peut faire une downgrade attack dessus (sslstrip), contre mesure HSTD 
 
 - Quelles idées pour améliorer la sécurité en embarqué? (IA, Anti-debug, Obfuscation, Crypto ...) Choisissez une idée, chercher si elle existe et développer en quelques phrases quel avantage elle apporte et ses limites
 
