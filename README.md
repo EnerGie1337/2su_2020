@@ -138,7 +138,7 @@ La commande qui permet d'extraire:
 ![first_bin](./src/img/binwalk1.PNG)
 
 on peut extraire au fur et à mesure les archives contenu comme des poupées russes.
-Ce qui est interessant c'est le certificat qui peut être utilisé pour vérifier une signature et le CRC32 afin de verifier l'integrit" du fichier.
+Ce qui est interessant c'est le certificat qui peut être utilisé pour vérifier une signature et le CRC32 afin de verifier l'integrité du fichier.
 
 finalement on arrive à une archive cpio qui contient une structure de fichier:
 
@@ -153,6 +153,8 @@ On peut ainsi retrouver le fichier tux.png de la démo. En analysant le script d
 On peut ensuite proceder à son analyse avec Ghidra:
 
 ![decom](./src/img/decompiple.PNG)
+
+La difficulé à reconstituer en changeatn l'image réside la le CRC32 et dans la signature.
 
 ### TD3
 #### Heap overflow
